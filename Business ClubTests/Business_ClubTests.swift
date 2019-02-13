@@ -35,17 +35,42 @@ class Business_ClubTests: XCTestCase {
     let testExpectation = XCTestExpectation(description: "Test Sample Data")
     guard let url = URL(string: "https://next.json-generator.com/api/json/get/Vk-LhK44U") else { return }
     let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+      guard error == nil else {
+        XCTFail("\(error as Any)")
+        return
+      }
       if let data = data {
         let result = try? JSONDecoder().decode([Company].self, from: data)
         print(result as Any)
         XCTAssert(result?.count == 20)
-        if let company = result?.first {
-          XCTAssert(company.members.count > 0)
+        if let companies = result {
+          for company in companies {
+            XCTAssert(company.members.count > 0)
+          }
         }
         testExpectation.fulfill()
       }
     }
     task.resume()
+    wait(for: [ testExpectation ], timeout: 30.0)
+  }
+  
+  func testNetworkManager() {
+    let testExpectation = XCTestExpectation(description: "Test Network Manager")
+    let api = BusinessClubAPI.getCompanyList()
+    NetworkManager.shared.get(api, resultType: [Company].self) { (companies, error) in
+      guard error == nil else {
+        XCTFail("\(error as Any)")
+        return
+      }
+      XCTAssert(companies?.count == 20)
+      if let companies = companies {
+        for company in companies {
+          XCTAssert(company.members.count > 0)
+        }
+      }
+      testExpectation.fulfill()
+    }
     wait(for: [ testExpectation ], timeout: 30.0)
   }
 }

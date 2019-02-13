@@ -15,6 +15,9 @@
 		34FE385D2214A99F00B29CDF /* Business_ClubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE385C2214A99F00B29CDF /* Business_ClubTests.swift */; };
 		34FE38692214AB4900B29CDF /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38682214AB4900B29CDF /* Company.swift */; };
 		34FE386B2214AC1400B29CDF /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE386A2214AC1400B29CDF /* Member.swift */; };
+		34FE386E2214B1F900B29CDF /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE386D2214B1F900B29CDF /* APIProtocol.swift */; };
+		34FE38702214B29B00B29CDF /* BusinessClubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE386F2214B29B00B29CDF /* BusinessClubAPI.swift */; };
+		34FE38742214B50100B29CDF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38732214B50100B29CDF /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,9 @@
 		34FE385E2214A99F00B29CDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34FE38682214AB4900B29CDF /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		34FE386A2214AC1400B29CDF /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		34FE386D2214B1F900B29CDF /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
+		34FE386F2214B29B00B29CDF /* BusinessClubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessClubAPI.swift; sourceTree = "<group>"; };
+		34FE38732214B50100B29CDF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +87,7 @@
 		34FE38462214A99D00B29CDF /* Business Club */ = {
 			isa = PBXGroup;
 			children = (
+				34FE386C2214B1DF00B29CDF /* Networking */,
 				34FE38672214AB3800B29CDF /* Model */,
 				34FE38472214A99D00B29CDF /* AppDelegate.swift */,
 				34FE38492214A99D00B29CDF /* ViewController.swift */,
@@ -108,6 +115,16 @@
 				34FE386A2214AC1400B29CDF /* Member.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		34FE386C2214B1DF00B29CDF /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				34FE386D2214B1F900B29CDF /* APIProtocol.swift */,
+				34FE386F2214B29B00B29CDF /* BusinessClubAPI.swift */,
+				34FE38732214B50100B29CDF /* NetworkManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,7 +230,10 @@
 			files = (
 				34FE384A2214A99D00B29CDF /* ViewController.swift in Sources */,
 				34FE38482214A99D00B29CDF /* AppDelegate.swift in Sources */,
+				34FE38702214B29B00B29CDF /* BusinessClubAPI.swift in Sources */,
+				34FE38742214B50100B29CDF /* NetworkManager.swift in Sources */,
 				34FE38692214AB4900B29CDF /* Company.swift in Sources */,
+				34FE386E2214B1F900B29CDF /* APIProtocol.swift in Sources */,
 				34FE386B2214AC1400B29CDF /* Member.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
