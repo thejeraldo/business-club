@@ -13,6 +13,8 @@
 		34FE384F2214A99F00B29CDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FE384E2214A99F00B29CDF /* Assets.xcassets */; };
 		34FE38522214A99F00B29CDF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34FE38502214A99F00B29CDF /* LaunchScreen.storyboard */; };
 		34FE385D2214A99F00B29CDF /* Business_ClubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE385C2214A99F00B29CDF /* Business_ClubTests.swift */; };
+		34FE38692214AB4900B29CDF /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38682214AB4900B29CDF /* Company.swift */; };
+		34FE386B2214AC1400B29CDF /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE386A2214AC1400B29CDF /* Member.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		34FE38582214A99F00B29CDF /* Business ClubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Business ClubTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE385C2214A99F00B29CDF /* Business_ClubTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business_ClubTests.swift; sourceTree = "<group>"; };
 		34FE385E2214A99F00B29CDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34FE38682214AB4900B29CDF /* Company.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
+		34FE386A2214AC1400B29CDF /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 		34FE38462214A99D00B29CDF /* Business Club */ = {
 			isa = PBXGroup;
 			children = (
+				34FE38672214AB3800B29CDF /* Model */,
 				34FE38472214A99D00B29CDF /* AppDelegate.swift */,
 				34FE38492214A99D00B29CDF /* ViewController.swift */,
 				34FE384B2214A99D00B29CDF /* Main.storyboard */,
@@ -94,6 +99,15 @@
 				34FE385E2214A99F00B29CDF /* Info.plist */,
 			);
 			path = "Business ClubTests";
+			sourceTree = "<group>";
+		};
+		34FE38672214AB3800B29CDF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				34FE38682214AB4900B29CDF /* Company.swift */,
+				34FE386A2214AC1400B29CDF /* Member.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +213,8 @@
 			files = (
 				34FE384A2214A99D00B29CDF /* ViewController.swift in Sources */,
 				34FE38482214A99D00B29CDF /* AppDelegate.swift in Sources */,
+				34FE38692214AB4900B29CDF /* Company.swift in Sources */,
+				34FE386B2214AC1400B29CDF /* Member.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
