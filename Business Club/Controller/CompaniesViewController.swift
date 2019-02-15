@@ -43,11 +43,17 @@ class CompaniesViewController: UIViewController {
     super.viewDidLoad()
     
     title = "Companies"
+    setupNavigationItems()
     setupUI()
     loadCompanies()
   }
   
   // MARK: -
+  
+  private func setupNavigationItems() {
+    let sortBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(showSortController))
+    self.navigationItem.rightBarButtonItems = [ sortBarButton ]
+  }
   
   private func setupUI() {
     view.backgroundColor = .white
@@ -78,6 +84,14 @@ class CompaniesViewController: UIViewController {
         self.companies = companies
       }
     }
+  }
+  
+  @objc private func showSortController() {
+    let alert = UIAlertController(title: "Sort Company List by", message: nil, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: "Name ascending A → Z", style: .default, handler: nil))
+    alert.addAction(UIAlertAction(title: "Name descending Z → A", style: .default, handler: nil))
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    present(alert, animated: true, completion: nil)
   }
 }
 
