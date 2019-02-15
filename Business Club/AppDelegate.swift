@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     
+    setupProgressHUD()
+    
     let companiesViewController = CompaniesViewController()
     let navigationController = UINavigationController(rootViewController: companiesViewController)
     self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -23,6 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window?.makeKeyAndVisible()
     
     return true
+  }
+  
+  private func setupProgressHUD() {
+    SVProgressHUD.setDefaultStyle(.dark)
   }
 }
 

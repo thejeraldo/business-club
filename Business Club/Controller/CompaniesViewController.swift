@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class CompaniesViewController: UIViewController {
   
@@ -28,6 +29,10 @@ class CompaniesViewController: UIViewController {
     tableView.translatesAutoresizingMaskIntoConstraints = false
     
     tableView.register(CompanyTableViewCell.self, forCellReuseIdentifier: "companyCell")
+    
+    let refreshControl = UIRefreshControl(frame: .zero)
+    refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    tableView.refreshControl = refreshControl
     
     return tableView
   }()
@@ -53,10 +58,20 @@ class CompaniesViewController: UIViewController {
     tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
   }
   
+  @objc private func refresh() {
+    tableView.refreshControl?.endRefreshing()
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
+      self.loadCompanies()
+    }
+  }
+  
   private func loadCompanies() {
+    SVProgressHUD.show()
     let api = BusinessClubAPI.getCompanyList()
     NetworkManager.shared.get(api, resultType: Companies.self) { result, error in
+      SVProgressHUD.dismiss()
       guard error == nil else {
+        SVProgressHUD.showError(withStatus: error?.localizedDescription)
         return
       }
       if let companies = result {
