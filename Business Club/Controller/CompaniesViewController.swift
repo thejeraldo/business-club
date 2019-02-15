@@ -91,6 +91,9 @@ extension CompaniesViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! CompanyTableViewCell
     if let company = companies?[indexPath.row] { cell.configureWith(company) }
+    if indexPath.row == 1 {
+      cell.followButton.setTitle("+ Follow", for: .normal)
+    }
     return cell
   }
 }

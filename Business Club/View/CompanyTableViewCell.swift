@@ -36,6 +36,27 @@ class CompanyTableViewCell: UITableViewCell {
     return label
   }()
   
+  var followButton: UIButton = {
+    let color = UIColor.blue
+    let button = UIButton(type: .custom)
+    button.layer.borderColor = color.cgColor
+    button.layer.borderWidth = 1
+    button.layer.cornerRadius = 4
+    button.setTitle("✓ Following", for: .normal)
+    button.setTitleColor(color, for: .normal)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .regular)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }()
+  
+  var favoriteButton: UIButton = {
+    let button = UIButton(type: .custom)
+    button.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
+    button.setTitle("", for: .normal)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
+  }()
+  
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
@@ -53,26 +74,39 @@ class CompanyTableViewCell: UITableViewCell {
     contentView.addSubview(companyImageView)
     contentView.addSubview(nameLabel)
     contentView.addSubview(websiteLabel)
+    contentView.addSubview(followButton)
+    contentView.addSubview(favoriteButton)
     
     var constraints = [NSLayoutConstraint]()
     
-    // companyImageView
+    // image
     constraints.append(companyImageView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor))
     constraints.append(companyImageView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor))
     constraints.append(companyImageView.widthAnchor.constraint(equalToConstant: 44.0))
     constraints.append(companyImageView.heightAnchor.constraint(equalToConstant: 44.0))
-    // constraints.append(companyImageView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor))
     
-    // websiteLabel
+    // favorite
+    constraints.append(favoriteButton.heightAnchor.constraint(equalToConstant: 24.0))
+    constraints.append(favoriteButton.widthAnchor.constraint(equalToConstant: 24.0))
+    constraints.append(favoriteButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor))
+    constraints.append(favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
+    
+    // follow
+    constraints.append(followButton.heightAnchor.constraint(equalToConstant: 24.0))
+    constraints.append(followButton.widthAnchor.constraint(equalToConstant: 90.0))
+    constraints.append(followButton.trailingAnchor.constraint(equalTo: favoriteButton.leadingAnchor, constant: -8.0))
+    constraints.append(followButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
+    
+    // website
     constraints.append(websiteLabel.leadingAnchor.constraint(equalTo: companyImageView.trailingAnchor, constant: 8.0))
     constraints.append(websiteLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor))
-    constraints.append(websiteLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor))
+    constraints.append(websiteLabel.trailingAnchor.constraint(equalTo: followButton.leadingAnchor, constant: -8.0))
     constraints.append(websiteLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 10.0))
     
-    // nameLabel
+    // name
     constraints.append(nameLabel.leadingAnchor.constraint(equalTo: companyImageView.trailingAnchor, constant: 8.0))
     constraints.append(nameLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor))
-    constraints.append(nameLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor))
+    constraints.append(nameLabel.trailingAnchor.constraint(equalTo: followButton.leadingAnchor, constant: -8.0))
     constraints.append(nameLabel.bottomAnchor.constraint(equalTo: websiteLabel.topAnchor, constant: -8.0))
     
     NSLayoutConstraint.activate(constraints)
