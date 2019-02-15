@@ -18,6 +18,9 @@
 		34FE386E2214B1F900B29CDF /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE386D2214B1F900B29CDF /* APIProtocol.swift */; };
 		34FE38702214B29B00B29CDF /* BusinessClubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE386F2214B29B00B29CDF /* BusinessClubAPI.swift */; };
 		34FE38742214B50100B29CDF /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38732214B50100B29CDF /* NetworkManager.swift */; };
+		34FE38772216261300B29CDF /* CompaniesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38762216261300B29CDF /* CompaniesViewController.swift */; };
+		34FE387A221628E500B29CDF /* CompanyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE3879221628E500B29CDF /* CompanyTableViewCell.swift */; };
+		34FE387D221638DD00B29CDF /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE387C221638DD00B29CDF /* UIImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +49,9 @@
 		34FE386D2214B1F900B29CDF /* APIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		34FE386F2214B29B00B29CDF /* BusinessClubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessClubAPI.swift; sourceTree = "<group>"; };
 		34FE38732214B50100B29CDF /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		34FE38762216261300B29CDF /* CompaniesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompaniesViewController.swift; sourceTree = "<group>"; };
+		34FE3879221628E500B29CDF /* CompanyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyTableViewCell.swift; sourceTree = "<group>"; };
+		34FE387C221638DD00B29CDF /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +95,9 @@
 			children = (
 				34FE386C2214B1DF00B29CDF /* Networking */,
 				34FE38672214AB3800B29CDF /* Model */,
+				34FE3878221628C600B29CDF /* View */,
+				34FE3875221625E900B29CDF /* Controller */,
+				34FE387B221638BC00B29CDF /* Extensions */,
 				34FE38472214A99D00B29CDF /* AppDelegate.swift */,
 				34FE38492214A99D00B29CDF /* ViewController.swift */,
 				34FE384B2214A99D00B29CDF /* Main.storyboard */,
@@ -125,6 +134,30 @@
 				34FE38732214B50100B29CDF /* NetworkManager.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		34FE3875221625E900B29CDF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				34FE38762216261300B29CDF /* CompaniesViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		34FE3878221628C600B29CDF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				34FE3879221628E500B29CDF /* CompanyTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		34FE387B221638BC00B29CDF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				34FE387C221638DD00B29CDF /* UIImageView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +267,9 @@
 				34FE38742214B50100B29CDF /* NetworkManager.swift in Sources */,
 				34FE38692214AB4900B29CDF /* Company.swift in Sources */,
 				34FE386E2214B1F900B29CDF /* APIProtocol.swift in Sources */,
+				34FE387D221638DD00B29CDF /* UIImageView.swift in Sources */,
+				34FE38772216261300B29CDF /* CompaniesViewController.swift in Sources */,
+				34FE387A221628E500B29CDF /* CompanyTableViewCell.swift in Sources */,
 				34FE386B2214AC1400B29CDF /* Member.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

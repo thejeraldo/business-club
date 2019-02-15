@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias Companies = [Company]
+
 struct Company: Codable {
   let companyId: String
   let name: String

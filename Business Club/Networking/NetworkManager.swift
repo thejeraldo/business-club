@@ -19,15 +19,15 @@ struct NetworkManager {
     }
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
       guard error == nil else {
-        completion(nil, error)
+        DispatchQueue.main.async { completion(nil, error) }
         return
       }
       if let data = data {
         do {
           let result = try JSONDecoder().decode(T.self, from: data)
-          completion(result, nil)
+          DispatchQueue.main.async { completion(result, nil) }
         } catch {
-          completion(nil, error)
+          DispatchQueue.main.async { completion(nil, error) }
         }
       }
     }
