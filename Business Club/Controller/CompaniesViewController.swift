@@ -11,15 +11,48 @@ import SVProgressHUD
 
 class CompaniesViewController: UIViewController {
   
+  // MARK: - Enums
+  
+  private enum NameOrder {
+    case none
+    case asc
+    case desc
+  }
+  
   // MARK: - Properties
   
-  var companies: Companies? {
+  private var companies: Companies? {
     didSet {
       tableView.reloadData()
     }
   }
+  private var nameOrder = NameOrder.none
+  private var searchResults: Companies? {
+    get {
+      var results = companies
+      // Sorting
+      if let _ = results {
+        switch nameOrder {
+        case .asc: results!.sort(by: { $0.name < $1.name })
+        case .desc: results!.sort(by: { $0.name > $1.name })
+        case .none: break
+        }
+      }
+      // Filtering
+      if searchController.isActive {
+        guard let searchText = searchController.searchBar.text, searchText.count > 0 else { return results }
+        if let _ = results {
+          results = results!.filter { $0.name.localizedStandardContains(searchText) }
+          results!.sort(by: { $0.name < $1.name }) // Always sort names in ascending order when searching.
+        }
+      }
+      return results
+    }
+  }
   
-  lazy var tableView: UITableView = {
+  // MARK: - UI Properties
+  
+  private lazy var tableView: UITableView = {
     let tableView = UITableView(frame: .zero)
     tableView.dataSource = self
     tableView.delegate = self
@@ -30,12 +63,9 @@ class CompaniesViewController: UIViewController {
     
     tableView.register(CompanyTableViewCell.self, forCellReuseIdentifier: "companyCell")
     
-    let refreshControl = UIRefreshControl(frame: .zero)
-    refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-    tableView.refreshControl = refreshControl
-    
     return tableView
   }()
+  private let searchController = UISearchController(searchResultsController: nil)
   
   // MARK: - View Controller Life Cycle
   
@@ -45,14 +75,15 @@ class CompaniesViewController: UIViewController {
     title = "Companies"
     setupNavigationItems()
     setupUI()
+    setupSearchController()
     loadCompanies()
   }
   
-  // MARK: -
+  // MARK: - Setup
   
   private func setupNavigationItems() {
     let sortBarButton = UIBarButtonItem(image: #imageLiteral(resourceName: "sort"), style: .plain, target: self, action: #selector(showSortController))
-    self.navigationItem.rightBarButtonItems = [ sortBarButton ]
+    navigationItem.rightBarButtonItems = [ sortBarButton ]
   }
   
   private func setupUI() {
@@ -64,12 +95,19 @@ class CompaniesViewController: UIViewController {
     tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
   }
   
-  @objc private func refresh() {
-    tableView.refreshControl?.endRefreshing()
-    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
-      self.loadCompanies()
-    }
+  private func setupSearchController() {
+    searchController.searchResultsUpdater = self
+    searchController.dimsBackgroundDuringPresentation = false
+    searchController.searchBar.placeholder = "Search by Company Name"
+    navigationItem.searchController = searchController
+    navigationItem.hidesSearchBarWhenScrolling = false
   }
+  
+  private func refresh() {
+    updateSearchResults(for: searchController)
+  }
+  
+  // MARK: - Actions
   
   private func loadCompanies() {
     SVProgressHUD.show()
@@ -88,8 +126,14 @@ class CompaniesViewController: UIViewController {
   
   @objc private func showSortController() {
     let alert = UIAlertController(title: "Sort Company List by", message: nil, preferredStyle: .actionSheet)
-    alert.addAction(UIAlertAction(title: "Name ascending A → Z", style: .default, handler: nil))
-    alert.addAction(UIAlertAction(title: "Name descending Z → A", style: .default, handler: nil))
+    alert.addAction(UIAlertAction(title: "Name descending A → Z", style: .default, handler: { _ in
+      self.nameOrder = .asc
+      self.updateSearchResults(for: self.searchController)
+    }))
+    alert.addAction(UIAlertAction(title: "Name descending Z → A", style: .default, handler: { _ in
+      self.nameOrder = .desc
+      self.updateSearchResults(for: self.searchController)
+    }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     present(alert, animated: true, completion: nil)
   }
@@ -99,18 +143,21 @@ class CompaniesViewController: UIViewController {
 
 extension CompaniesViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.companies?.count ?? 0
+    // return self.companies?.count ?? 0
+    return searchResults?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! CompanyTableViewCell
-    if let company = companies?[indexPath.row] { cell.configureWith(company) }
+    if let company = searchResults?[indexPath.row] { cell.configureWith(company) }
     if indexPath.row == 1 {
       cell.followButton.setTitle("+ Follow", for: .normal)
     }
     return cell
   }
 }
+
+// MARK: - UITableViewDelegate
 
 extension CompaniesViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -123,7 +170,15 @@ extension CompaniesViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    guard let company = companies?[indexPath.row] else { return }
+    guard let company = searchResults?[indexPath.row] else { return }
     print(company)
+  }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension CompaniesViewController: UISearchResultsUpdating {
+  func updateSearchResults(for searchController: UISearchController) {
+    tableView.reloadData()
   }
 }
