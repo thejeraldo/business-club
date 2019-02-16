@@ -40,10 +40,17 @@ class CompaniesViewController: UIViewController {
       }
       // Filtering
       if searchController.isActive {
-        guard let searchText = searchController.searchBar.text, searchText.count > 0 else { return results }
+        guard let searchText = searchController.searchBar.text, searchText.count > 0 else {
+          emptyLabel.isHidden = true
+          return results
+        }
         if let _ = results {
           results = results!.filter { $0.name.localizedStandardContains(searchText) }
           results!.sort(by: { $0.name < $1.name }) // Always sort names in ascending order when searching.
+          emptyLabel.isHidden = results?.count != 0
+          if results?.count == 0 {
+            emptyLabel.text = "No results for \"\(searchText)\"."
+          }
         }
       }
       return results
@@ -64,6 +71,17 @@ class CompaniesViewController: UIViewController {
     tableView.register(CompanyTableViewCell.self, forCellReuseIdentifier: "companyCell")
     
     return tableView
+  }()
+  private let emptyLabel: UILabel = {
+    let label = UILabel(frame: .zero)
+    label.backgroundColor = .clear
+    label.font = UIFont.systemFont(ofSize: 14.0, weight: .light)
+    label.isHidden = true
+    label.numberOfLines = 0
+    label.textAlignment = .center
+    label.textColor = .darkGray
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
   }()
   private let searchController = UISearchController(searchResultsController: nil)
   
@@ -89,14 +107,24 @@ class CompaniesViewController: UIViewController {
   private func setupUI() {
     view.backgroundColor = .white
     view.addSubview(tableView)
+    view.addSubview(emptyLabel)
+    
+    // Table view
     tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
     tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    
+    // Empty label
+    emptyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0).isActive = true
+    emptyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0).isActive = true
+    emptyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0).isActive = true
+    emptyLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
   }
   
   private func setupSearchController() {
     searchController.searchResultsUpdater = self
+    searchController.searchBar.delegate = self
     searchController.dimsBackgroundDuringPresentation = false
     searchController.searchBar.placeholder = "Search by Company Name"
     navigationItem.searchController = searchController
@@ -143,7 +171,6 @@ class CompaniesViewController: UIViewController {
 
 extension CompaniesViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    // return self.companies?.count ?? 0
     return searchResults?.count ?? 0
   }
   
@@ -177,7 +204,11 @@ extension CompaniesViewController: UITableViewDelegate {
 
 // MARK: - UISearchResultsUpdating
 
-extension CompaniesViewController: UISearchResultsUpdating {
+extension CompaniesViewController: UISearchResultsUpdating, UISearchBarDelegate {
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    emptyLabel.isHidden = true
+  }
+  
   func updateSearchResults(for searchController: UISearchController) {
     tableView.reloadData()
   }
