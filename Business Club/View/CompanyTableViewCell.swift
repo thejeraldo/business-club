@@ -41,9 +41,10 @@ class CompanyTableViewCell: UITableViewCell {
     return button
   }()
   
-  var followButton: UIButton = {
+  lazy var followButton: UIButton = {
     let color = UIColor.blue
     let button = UIButton(type: .custom)
+    button.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
     button.layer.borderColor = color.cgColor
     button.layer.borderWidth = 1
     button.layer.cornerRadius = 4
@@ -54,8 +55,9 @@ class CompanyTableViewCell: UITableViewCell {
     return button
   }()
   
-  var favoriteButton: UIButton = {
+  lazy var favoriteButton: UIButton = {
     let button = UIButton(type: .custom)
+    button.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
     button.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
     button.setTitle("", for: .normal)
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +66,8 @@ class CompanyTableViewCell: UITableViewCell {
   
   typealias buttonTapHandler = (() -> ())
   var websiteTapHandler: buttonTapHandler = {}
+  var followTapHandler: buttonTapHandler = {}
+  var favoriteTapHandler: buttonTapHandler = {}
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -125,8 +129,8 @@ class CompanyTableViewCell: UITableViewCell {
   }
   
   public func configureWith(_ company: Company) {
+    if let url = URL(string: company.logo) { companyImageView.setURL(url) }
     nameLabel.text = company.name
-    
     let websiteButtonAttribs: [NSAttributedString.Key: Any] = [
       NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12.0, weight: .light),
       NSAttributedString.Key.foregroundColor: UIColor.darkGray,
@@ -136,14 +140,28 @@ class CompanyTableViewCell: UITableViewCell {
     let websiteTitle = NSAttributedString(string: company.website, attributes: websiteButtonAttribs)
     websiteButton.setAttributedTitle(websiteTitle, for: .normal)
     websiteButton.addTarget(self, action: #selector(didTapWebsiteButton), for: .touchUpInside)
-    
-    if let url = URL(string: company.logo) {
-      companyImageView.setURL(url)
+    if company.isFollowing {
+      followButton.setTitle("✓ Following", for: .normal)
+      followButton.layer.borderColor = UIColor.lightGray.cgColor
+      followButton.setTitleColor(.lightGray, for: .normal)
+    } else {
+      followButton.setTitle("+ Follow", for: .normal)
+      followButton.layer.borderColor = UIColor.blue.cgColor
+      followButton.setTitleColor(.blue, for: .normal)
     }
+    favoriteButton.setImage(company.isFavorite ? #imageLiteral(resourceName: "unfavorite") : #imageLiteral(resourceName: "favorite"), for: .normal)
     layoutSubviews()
   }
   
   @objc private func didTapWebsiteButton() {
     self.websiteTapHandler()
+  }
+  
+  @objc private func didTapFollowButton() {
+    self.followTapHandler()
+  }
+  
+  @objc private func didTapFavoriteButton() {
+    self.favoriteTapHandler()
   }
 }

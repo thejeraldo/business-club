@@ -18,6 +18,9 @@ struct Company: Codable {
   let about: String
   let members: [Member]
   
+  var isFollowing: Bool = false
+  var isFavorite: Bool = false
+  
   enum CodingKeys: String, CodingKey {
     case companyId = "_id"
     case name = "company"
@@ -25,5 +28,15 @@ struct Company: Codable {
     case logo = "logo"
     case about = "about"
     case members = "members"
+  }
+}
+
+extension Company {
+  mutating func toggleFollow() {
+    isFollowing = isFollowing ? false : true
+  }
+  
+  mutating func toggleFavorite() {
+    isFavorite = isFavorite ? false : true
   }
 }

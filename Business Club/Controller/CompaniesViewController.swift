@@ -182,7 +182,19 @@ extension CompaniesViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! CompanyTableViewCell
-    if let company = searchResults?[indexPath.row] { cell.configureWith(company) }
+    if let company = searchResults?[indexPath.row] {
+      cell.configureWith(company)
+      if let index = companies?.lastIndex(where: { $0.name == company.name }) {
+        cell.followTapHandler = {
+          self.companies?.modifyElement(atIndex: index) { $0.toggleFollow() }
+          self.tableView.reloadData()
+        }
+        cell.favoriteTapHandler = {
+          self.companies?.modifyElement(atIndex: index) { $0.toggleFavorite() }
+          self.tableView.reloadData()
+        }
+      }
+    }
     return cell
   }
 }
