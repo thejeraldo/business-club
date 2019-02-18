@@ -9,6 +9,11 @@
 import UIKit
 import SVProgressHUD
 
+protocol CompanyDetailsViewControllerDelegate: class {
+  func didToggleFollow(_ company: Company)
+  func didToggleFavorite(_ company: Company)
+}
+
 class CompanyDetailsViewController: UIViewController {
   
   // MARK: - Enums
@@ -22,6 +27,7 @@ class CompanyDetailsViewController: UIViewController {
   // MARK: - Properties
   
   var company: Company?
+  weak var delegate: CompanyDetailsViewControllerDelegate?
   
   // MARK: - UI Properties
   
@@ -107,6 +113,16 @@ extension CompanyDetailsViewController: UITableViewDataSource {
       cell.websiteButton.isUserInteractionEnabled = true
       cell.websiteTapHandler = {
         self.openWebsite()
+      }
+      cell.followTapHandler = {
+        self.company!.toggleFollow()
+        self.tableView.reloadData()
+        self.delegate?.didToggleFollow(self.company!)
+      }
+      cell.favoriteTapHandler = {
+        self.company!.toggleFavorite()
+        self.tableView.reloadData()
+        self.delegate?.didToggleFavorite(self.company!)
       }
       return cell
     case .members:

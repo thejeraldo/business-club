@@ -214,6 +214,7 @@ extension CompaniesViewController: UITableViewDelegate {
     tableView.deselectRow(at: indexPath, animated: true)
     guard let company = searchResults?[indexPath.row] else { return }
     let vc = CompanyDetailsViewController(company)
+    vc.delegate = self
     self.navigationController?.pushViewController(vc, animated: true)
   }
 }
@@ -235,5 +236,19 @@ extension CompaniesViewController: UISearchResultsUpdating, UISearchBarDelegate,
   
   func willDismissSearchController(_ searchController: UISearchController) {
     setupNavigationItems()
+  }
+}
+
+extension CompaniesViewController: CompanyDetailsViewControllerDelegate {
+  func didToggleFollow(_ company: Company) {
+    guard let index = companies?.lastIndex(where: { $0.name == company.name }) else { return }
+    self.companies?.modifyElement(atIndex: index) { $0.toggleFollow() }
+    self.tableView.reloadData()
+  }
+  
+  func didToggleFavorite(_ company: Company) {
+    guard let index = companies?.lastIndex(where: { $0.name == company.name }) else { return }
+    self.companies?.modifyElement(atIndex: index) { $0.toggleFavorite() }
+    self.tableView.reloadData()
   }
 }
