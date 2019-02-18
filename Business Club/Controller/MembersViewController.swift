@@ -38,7 +38,20 @@ class MembersViewController: UIViewController {
         }
       }
       // Filtering
-      
+      if searchController.isActive {
+        guard let searchText = searchController.searchBar.text, searchText.count > 0 else {
+          emptyLabel.isHidden = true
+          return results
+        }
+        if let _ = results {
+          results = results!.filter { $0.name.firstName.localizedStandardContains(searchText) || $0.name.lastName.localizedStandardContains(searchText) }
+          results!.sort(by: { $0.name.firstName < $1.name.firstName })
+          emptyLabel.isHidden = results?.count != 0
+          if results?.count == 0 {
+            emptyLabel.text = "No results for \"\(searchText)\"."
+          }
+        }
+      }
       return results
     }
   }
@@ -57,6 +70,17 @@ class MembersViewController: UIViewController {
     tableView.register(MemberTableViewCell.self, forCellReuseIdentifier: "memberCell")
     
     return tableView
+  }()
+  private let emptyLabel: UILabel = {
+    let label = UILabel(frame: .zero)
+    label.backgroundColor = .clear
+    label.font = UIFont.systemFont(ofSize: 14.0, weight: .light)
+    label.isHidden = true
+    label.numberOfLines = 0
+    label.textAlignment = .center
+    label.textColor = .darkGray
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
   }()
   private let searchController = UISearchController(searchResultsController: nil)
   
@@ -97,12 +121,19 @@ class MembersViewController: UIViewController {
   private func setupUI() {
     view.backgroundColor = .white
     view.addSubview(tableView)
+    view.addSubview(emptyLabel)
     
     // Table view
     tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
     tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    
+    // Empty label
+    emptyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0).isActive = true
+    emptyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0).isActive = true
+    emptyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0).isActive = true
+    emptyLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
   }
   
   private func setupSearchController() {
@@ -191,12 +222,13 @@ extension MembersViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     guard let member = searchResults?[indexPath.row] else { return }
+    
   }
 }
 
 extension MembersViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    
+    emptyLabel.isHidden = true
   }
   
   func updateSearchResults(for searchController: UISearchController) {
