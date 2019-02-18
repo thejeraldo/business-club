@@ -123,9 +123,11 @@ class CompaniesViewController: UIViewController {
   }
   
   private func setupSearchController() {
+    searchController.delegate = self
     searchController.searchResultsUpdater = self
     searchController.searchBar.delegate = self
     searchController.dimsBackgroundDuringPresentation = false
+    searchController.hidesNavigationBarDuringPresentation = false
     searchController.searchBar.placeholder = "Search by Company Name"
     navigationItem.searchController = searchController
     navigationItem.hidesSearchBarWhenScrolling = false
@@ -181,9 +183,7 @@ extension CompaniesViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! CompanyTableViewCell
     if let company = searchResults?[indexPath.row] { cell.configureWith(company) }
-    if indexPath.row == 1 {
-      cell.followButton.setTitle("+ Follow", for: .normal)
-    }
+    cell.websiteButton.isUserInteractionEnabled = false
     return cell
   }
 }
@@ -202,18 +202,27 @@ extension CompaniesViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     guard let company = searchResults?[indexPath.row] else { return }
-    print(company)
+    let vc = CompanyDetailsViewController(company)
+    self.navigationController?.pushViewController(vc, animated: true)
   }
 }
 
 // MARK: - UISearchResultsUpdating
 
-extension CompaniesViewController: UISearchResultsUpdating, UISearchBarDelegate {
+extension CompaniesViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     emptyLabel.isHidden = true
   }
   
   func updateSearchResults(for searchController: UISearchController) {
     tableView.reloadData()
+  }
+  
+  func willPresentSearchController(_ searchController: UISearchController) {
+    navigationItem.rightBarButtonItem = nil
+  }
+  
+  func willDismissSearchController(_ searchController: UISearchController) {
+    setupNavigationItems()
   }
 }

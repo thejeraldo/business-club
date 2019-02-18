@@ -29,12 +29,15 @@ class CompanyTableViewCell: UITableViewCell {
     return label
   }()
   
-  var websiteLabel: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 12.0, weight: .light)
-    label.textColor = .darkGray
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
+  var websiteButton: UIButton = {
+    let button = UIButton(type: .custom)
+    button.layer.borderWidth = 0
+    button.contentHorizontalAlignment = .leading
+    button.setTitle("", for: .normal)
+    button.setTitleColor(.darkGray, for: .normal)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .regular)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    return button
   }()
   
   var followButton: UIButton = {
@@ -58,6 +61,9 @@ class CompanyTableViewCell: UITableViewCell {
     return button
   }()
   
+  typealias buttonTapHandler = (() -> ())
+  var websiteTapHandler: buttonTapHandler = {}
+  
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
@@ -74,7 +80,7 @@ class CompanyTableViewCell: UITableViewCell {
     
     contentView.addSubview(companyImageView)
     contentView.addSubview(nameLabel)
-    contentView.addSubview(websiteLabel)
+    contentView.addSubview(websiteButton)
     contentView.addSubview(followButton)
     contentView.addSubview(favoriteButton)
     
@@ -99,16 +105,16 @@ class CompanyTableViewCell: UITableViewCell {
     constraints.append(followButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
     
     // website
-    constraints.append(websiteLabel.leadingAnchor.constraint(equalTo: companyImageView.trailingAnchor, constant: 8.0))
-    constraints.append(websiteLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor))
-    constraints.append(websiteLabel.trailingAnchor.constraint(equalTo: followButton.leadingAnchor, constant: -8.0))
-    constraints.append(websiteLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 10.0))
+    constraints.append(websiteButton.leadingAnchor.constraint(equalTo: companyImageView.trailingAnchor, constant: 8.0))
+    constraints.append(websiteButton.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor))
+    constraints.append(websiteButton.trailingAnchor.constraint(equalTo: followButton.leadingAnchor, constant: -8.0))
+    constraints.append(websiteButton.heightAnchor.constraint(equalToConstant: 16.0))
     
     // name
     constraints.append(nameLabel.leadingAnchor.constraint(equalTo: companyImageView.trailingAnchor, constant: 8.0))
     constraints.append(nameLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor))
     constraints.append(nameLabel.trailingAnchor.constraint(equalTo: followButton.leadingAnchor, constant: -8.0))
-    constraints.append(nameLabel.bottomAnchor.constraint(equalTo: websiteLabel.topAnchor, constant: -8.0))
+    constraints.append(nameLabel.bottomAnchor.constraint(equalTo: websiteButton.topAnchor, constant: -8.0))
     
     NSLayoutConstraint.activate(constraints)
   }
@@ -119,10 +125,24 @@ class CompanyTableViewCell: UITableViewCell {
   
   public func configureWith(_ company: Company) {
     nameLabel.text = company.name
-    websiteLabel.text = company.website
+    
+    let websiteButtonAttribs: [NSAttributedString.Key: Any] = [
+      NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12.0, weight: .light),
+      NSAttributedString.Key.foregroundColor: UIColor.darkGray,
+      NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+      NSAttributedString.Key.underlineColor: UIColor.lightGray
+    ]
+    let websiteTitle = NSAttributedString(string: company.website, attributes: websiteButtonAttribs)
+    websiteButton.setAttributedTitle(websiteTitle, for: .normal)
+    websiteButton.addTarget(self, action: #selector(didTapWebsiteButton), for: .touchUpInside)
+    
     if let url = URL(string: company.logo) {
       companyImageView.setURL(url)
     }
     layoutSubviews()
+  }
+  
+  @objc private func didTapWebsiteButton() {
+    self.websiteTapHandler()
   }
 }
