@@ -15,6 +15,7 @@ class CompanyTableViewCell: UITableViewCell {
     imageView.backgroundColor = .lightGray
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFit
+    imageView.layer.cornerRadius = 44 * 0.5
     imageView.translatesAutoresizingMaskIntoConstraints = false
     return imageView
   }()
@@ -42,7 +43,7 @@ class CompanyTableViewCell: UITableViewCell {
     button.layer.borderColor = color.cgColor
     button.layer.borderWidth = 1
     button.layer.cornerRadius = 4
-    button.setTitle("✓ Following", for: .normal)
+    button.setTitle("+ Follow", for: .normal)
     button.setTitleColor(color, for: .normal)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .regular)
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -116,17 +117,12 @@ class CompanyTableViewCell: UITableViewCell {
     super.init(coder: aDecoder)
   }
   
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    let height = companyImageView.frame.height
-    companyImageView.layer.cornerRadius = height * 0.5
-  }
-  
   public func configureWith(_ company: Company) {
     nameLabel.text = company.name
     websiteLabel.text = company.website
     if let url = URL(string: company.logo) {
       companyImageView.setURL(url)
     }
+    layoutSubviews()
   }
 }

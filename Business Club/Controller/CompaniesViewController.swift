@@ -154,11 +154,15 @@ class CompaniesViewController: UIViewController {
   
   @objc private func showSortController() {
     let alert = UIAlertController(title: "Sort Company List by", message: nil, preferredStyle: .actionSheet)
-    alert.addAction(UIAlertAction(title: "Name descending A → Z", style: .default, handler: { _ in
+    var sortAscendingTitle = "Name ascending A → Z"
+    if nameOrder == .asc { sortAscendingTitle.append(" ✓") }
+    alert.addAction(UIAlertAction(title: sortAscendingTitle, style: .default, handler: { _ in
       self.nameOrder = .asc
       self.updateSearchResults(for: self.searchController)
     }))
-    alert.addAction(UIAlertAction(title: "Name descending Z → A", style: .default, handler: { _ in
+    var sortDescendingTitle = "Name descending Z → A"
+    if nameOrder == .desc { sortDescendingTitle.append(" ✓") }
+    alert.addAction(UIAlertAction(title: sortDescendingTitle, style: .default, handler: { _ in
       self.nameOrder = .desc
       self.updateSearchResults(for: self.searchController)
     }))
