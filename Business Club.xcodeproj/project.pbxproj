@@ -11,6 +11,8 @@
 		34C3B88F221A4DB0001E4B8F /* CompanyMembersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B88E221A4DB0001E4B8F /* CompanyMembersTableViewCell.swift */; };
 		34C3B891221A4FE9001E4B8F /* CompanyAboutTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B890221A4FE9001E4B8F /* CompanyAboutTableViewCell.swift */; };
 		34C3B893221A526B001E4B8F /* CompanyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B892221A526B001E4B8F /* CompanyInfoTableViewCell.swift */; };
+		34C3B895221A6AAB001E4B8F /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B894221A6AAB001E4B8F /* MembersViewController.swift */; };
+		34C3B897221A6E66001E4B8F /* MemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B896221A6E66001E4B8F /* MemberTableViewCell.swift */; };
 		34FE38482214A99D00B29CDF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38472214A99D00B29CDF /* AppDelegate.swift */; };
 		34FE384A2214A99D00B29CDF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38492214A99D00B29CDF /* ViewController.swift */; };
 		34FE384D2214A99D00B29CDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34FE384B2214A99D00B29CDF /* Main.storyboard */; };
@@ -45,6 +47,8 @@
 		34C3B88E221A4DB0001E4B8F /* CompanyMembersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyMembersTableViewCell.swift; sourceTree = "<group>"; };
 		34C3B890221A4FE9001E4B8F /* CompanyAboutTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyAboutTableViewCell.swift; sourceTree = "<group>"; };
 		34C3B892221A526B001E4B8F /* CompanyInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyInfoTableViewCell.swift; sourceTree = "<group>"; };
+		34C3B894221A6AAB001E4B8F /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
+		34C3B896221A6E66001E4B8F /* MemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableViewCell.swift; sourceTree = "<group>"; };
 		34FE38442214A99D00B29CDF /* Business Club.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Business Club.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE38472214A99D00B29CDF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34FE38492214A99D00B29CDF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 			children = (
 				34FE38762216261300B29CDF /* CompaniesViewController.swift */,
 				34C3B88C221A4B07001E4B8F /* CompanyDetailsViewController.swift */,
+				34C3B894221A6AAB001E4B8F /* MembersViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 				34C3B88E221A4DB0001E4B8F /* CompanyMembersTableViewCell.swift */,
 				34C3B890221A4FE9001E4B8F /* CompanyAboutTableViewCell.swift */,
 				34C3B892221A526B001E4B8F /* CompanyInfoTableViewCell.swift */,
+				34C3B896221A6E66001E4B8F /* MemberTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -372,6 +378,7 @@
 				34C3B891221A4FE9001E4B8F /* CompanyAboutTableViewCell.swift in Sources */,
 				34C3B893221A526B001E4B8F /* CompanyInfoTableViewCell.swift in Sources */,
 				34FE38742214B50100B29CDF /* NetworkManager.swift in Sources */,
+				34C3B895221A6AAB001E4B8F /* MembersViewController.swift in Sources */,
 				34FE38692214AB4900B29CDF /* Company.swift in Sources */,
 				34FE386E2214B1F900B29CDF /* APIProtocol.swift in Sources */,
 				34FE387D221638DD00B29CDF /* UIImageView.swift in Sources */,
@@ -379,6 +386,7 @@
 				34FE387A221628E500B29CDF /* CompanyTableViewCell.swift in Sources */,
 				34FE386B2214AC1400B29CDF /* Member.swift in Sources */,
 				34C3B88F221A4DB0001E4B8F /* CompanyMembersTableViewCell.swift in Sources */,
+				34C3B897221A6E66001E4B8F /* MemberTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

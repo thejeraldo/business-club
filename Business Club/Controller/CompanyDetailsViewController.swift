@@ -104,6 +104,7 @@ extension CompanyDetailsViewController: UITableViewDataSource {
       let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! CompanyTableViewCell
       cell.selectionStyle = .none
       cell.configureWith(company!)
+      cell.websiteButton.isUserInteractionEnabled = true
       cell.websiteTapHandler = {
         self.openWebsite()
       }
@@ -135,7 +136,8 @@ extension CompanyDetailsViewController: UITableViewDelegate {
     guard let detailsRow = CompanyDetailsRow(rawValue: row) else { return }
     guard let company = self.company else { return }
     if detailsRow == .members {
-      print(company.members)
+      let vc = MembersViewController(company)
+      self.navigationController?.pushViewController(vc, animated: true)
     }
   }
 }

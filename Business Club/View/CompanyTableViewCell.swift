@@ -37,6 +37,7 @@ class CompanyTableViewCell: UITableViewCell {
     button.setTitleColor(.darkGray, for: .normal)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 12.0, weight: .regular)
     button.translatesAutoresizingMaskIntoConstraints = false
+    button.isUserInteractionEnabled = false
     return button
   }()
   

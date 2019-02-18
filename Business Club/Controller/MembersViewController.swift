@@ -1,58 +1,32 @@
 //
-//  CompaniesViewController.swift
+//  MembersViewController.swift
 //  Business Club
 //
-//  Created by Jerald Abille on 2/15/19.
+//  Created by Jerald Abille on 2/18/19.
 //  Copyright © 2019 Jerald Abille. All rights reserved.
 //
 
 import UIKit
-import SVProgressHUD
 
-class CompaniesViewController: UIViewController {
+class MembersViewController: UIViewController {
   
   // MARK: - Enums
   
-  private enum NameOrder {
+  private enum Order {
     case none
-    case asc
-    case desc
+    case nameAsc
+    case nameDesc
+    case ageAsc
+    case ageDesc
   }
   
   // MARK: - Properties
   
-  private var companies: Companies? {
-    didSet {
-      tableView.reloadData()
-    }
-  }
-  private var nameOrder = NameOrder.none
-  private var searchResults: Companies? {
+  private var company: Company?
+  private var order = Order.none
+  private var searchResults: Members? {
     get {
-      var results = companies
-      // Sorting
-      if let _ = results {
-        switch nameOrder {
-        case .asc: results!.sort(by: { $0.name < $1.name })
-        case .desc: results!.sort(by: { $0.name > $1.name })
-        case .none: break
-        }
-      }
-      // Filtering
-      if searchController.isActive {
-        guard let searchText = searchController.searchBar.text, searchText.count > 0 else {
-          emptyLabel.isHidden = true
-          return results
-        }
-        if let _ = results {
-          results = results!.filter { $0.name.localizedStandardContains(searchText) }
-          results!.sort(by: { $0.name < $1.name }) // Always sort names in ascending order when searching.
-          emptyLabel.isHidden = results?.count != 0
-          if results?.count == 0 {
-            emptyLabel.text = "No results for \"\(searchText)\"."
-          }
-        }
-      }
+      var results = company?.members
       return results
     }
   }
@@ -64,37 +38,41 @@ class CompaniesViewController: UIViewController {
     tableView.dataSource = self
     tableView.delegate = self
     tableView.rowHeight = UITableView.automaticDimension
-    tableView.estimatedRowHeight = 60.0
+    tableView.estimatedRowHeight = 72.0
     tableView.tableFooterView = UIView()
     tableView.translatesAutoresizingMaskIntoConstraints = false
     
-    tableView.register(CompanyTableViewCell.self, forCellReuseIdentifier: "companyCell")
+    tableView.register(MemberTableViewCell.self, forCellReuseIdentifier: "memberCell")
     
     return tableView
   }()
-  private let emptyLabel: UILabel = {
-    let label = UILabel(frame: .zero)
-    label.backgroundColor = .clear
-    label.font = UIFont.systemFont(ofSize: 14.0, weight: .light)
-    label.isHidden = true
-    label.numberOfLines = 0
-    label.textAlignment = .center
-    label.textColor = .darkGray
-    label.translatesAutoresizingMaskIntoConstraints = false
-    return label
-  }()
   private let searchController = UISearchController(searchResultsController: nil)
+  
+  // MARK: - Initialization
+  
+  init(_ company: Company) {
+    self.company = company
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
   
   // MARK: - View Controller Life Cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    title = "Companies"
+    title = company?.name.appending(" members")
     setupNavigationItems()
     setupUI()
     setupSearchController()
-    loadCompanies()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    searchController.dismiss(animated: true, completion: nil)
   }
   
   // MARK: - Setup
@@ -107,65 +85,36 @@ class CompaniesViewController: UIViewController {
   private func setupUI() {
     view.backgroundColor = .white
     view.addSubview(tableView)
-    view.addSubview(emptyLabel)
     
     // Table view
     tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
     tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-    
-    // Empty label
-    emptyLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0).isActive = true
-    emptyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0).isActive = true
-    emptyLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16.0).isActive = true
-    emptyLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
   }
   
   private func setupSearchController() {
     searchController.delegate = self
     searchController.searchResultsUpdater = self
     searchController.searchBar.delegate = self
+    searchController.definesPresentationContext = true
     searchController.dimsBackgroundDuringPresentation = false
     searchController.hidesNavigationBarDuringPresentation = false
-    searchController.searchBar.placeholder = "Search by Company Name"
+    searchController.searchBar.placeholder = "Search by Member Name"
     navigationItem.searchController = searchController
     navigationItem.hidesSearchBarWhenScrolling = false
   }
   
-  private func refresh() {
-    updateSearchResults(for: searchController)
-  }
-  
   // MARK: - Actions
-  
-  private func loadCompanies() {
-    SVProgressHUD.show()
-    let api = BusinessClubAPI.getCompanyList()
-    NetworkManager.shared.get(api, resultType: Companies.self) { result, error in
-      SVProgressHUD.dismiss()
-      guard error == nil else {
-        SVProgressHUD.showError(withStatus: error?.localizedDescription)
-        return
-      }
-      if let companies = result {
-        self.companies = companies
-      }
-    }
-  }
   
   @objc private func showSortController() {
     let alert = UIAlertController(title: "Sort Company List by", message: nil, preferredStyle: .actionSheet)
     var sortAscendingTitle = "Name ascending A → Z"
-    if nameOrder == .asc { sortAscendingTitle.append(" ✓") }
     alert.addAction(UIAlertAction(title: sortAscendingTitle, style: .default, handler: { _ in
-      self.nameOrder = .asc
       self.updateSearchResults(for: self.searchController)
     }))
     var sortDescendingTitle = "Name descending Z → A"
-    if nameOrder == .desc { sortDescendingTitle.append(" ✓") }
     alert.addAction(UIAlertAction(title: sortDescendingTitle, style: .default, handler: { _ in
-      self.nameOrder = .desc
       self.updateSearchResults(for: self.searchController)
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -173,23 +122,23 @@ class CompaniesViewController: UIViewController {
   }
 }
 
-// MARK: - UITableViewDataSource
-
-extension CompaniesViewController: UITableViewDataSource {
+extension MembersViewController: UITableViewDataSource {
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return searchResults?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "companyCell", for: indexPath) as! CompanyTableViewCell
-    if let company = searchResults?[indexPath.row] { cell.configureWith(company) }
+    let cell = tableView.dequeueReusableCell(withIdentifier: "memberCell", for: indexPath) as! MemberTableViewCell
+    if let member = searchResults?[indexPath.row] { cell.configureWith(member) }
     return cell
   }
 }
 
-// MARK: - UITableViewDelegate
-
-extension CompaniesViewController: UITableViewDelegate {
+extension MembersViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
   }
@@ -200,17 +149,13 @@ extension CompaniesViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    guard let company = searchResults?[indexPath.row] else { return }
-    let vc = CompanyDetailsViewController(company)
-    self.navigationController?.pushViewController(vc, animated: true)
+    guard let member = searchResults?[indexPath.row] else { return }
   }
 }
 
-// MARK: - UISearchResultsUpdating
-
-extension CompaniesViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
+extension MembersViewController: UISearchResultsUpdating, UISearchBarDelegate, UISearchControllerDelegate {
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    emptyLabel.isHidden = true
+    
   }
   
   func updateSearchResults(for searchController: UISearchController) {

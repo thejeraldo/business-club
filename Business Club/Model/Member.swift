@@ -18,6 +18,8 @@ struct Name: Codable {
   }
 }
 
+typealias Members = [Member]
+
 struct Member: Codable {
   let memberId: String
   let age: Int
