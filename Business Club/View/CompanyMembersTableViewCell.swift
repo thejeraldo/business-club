@@ -43,7 +43,6 @@ class CompanyMembersTableViewCell: UITableViewCell {
     constraints.append(membersLabel.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor))
     constraints.append(membersLabel.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor))
     constraints.append(membersLabel.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor))
-    constraints.append(membersLabel.heightAnchor.constraint(equalToConstant: 28.0))
     
     NSLayoutConstraint.activate(constraints)
   }

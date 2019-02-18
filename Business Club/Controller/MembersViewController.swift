@@ -27,6 +27,18 @@ class MembersViewController: UIViewController {
   private var searchResults: Members? {
     get {
       var results = company?.members
+      // Sorting
+      if let _ = results {
+        switch order {
+        case .nameAsc: results!.sort(by: { $0.name.firstName < $1.name.firstName })
+        case .nameDesc: results!.sort(by: { $0.name.firstName > $1.name.firstName })
+        case .ageAsc: results!.sort(by: { $0.age != $1.age ? $0.age < $1.age : $0.name.firstName < $1.name.firstName })
+        case .ageDesc: results!.sort(by: { $0.age != $1.age ? $0.age > $1.age : $0.name.firstName < $1.name.firstName })
+        case .none: break
+        }
+      }
+      // Filtering
+      
       return results
     }
   }
@@ -109,18 +121,45 @@ class MembersViewController: UIViewController {
   
   @objc private func showSortController() {
     let alert = UIAlertController(title: "Sort Company List by", message: nil, preferredStyle: .actionSheet)
-    var sortAscendingTitle = "Name ascending A → Z"
-    alert.addAction(UIAlertAction(title: sortAscendingTitle, style: .default, handler: { _ in
+    
+    // Sort by name ascending
+    var sortNameAscendingTitle = "Name ascending A → Z"
+    if order == .nameAsc { sortNameAscendingTitle.append(" ✓") }
+    alert.addAction(UIAlertAction(title: sortNameAscendingTitle, style: .default, handler: { _ in
+      self.order = .nameAsc
       self.updateSearchResults(for: self.searchController)
     }))
-    var sortDescendingTitle = "Name descending Z → A"
-    alert.addAction(UIAlertAction(title: sortDescendingTitle, style: .default, handler: { _ in
+    
+    // Sort by name descending
+    var sortNameDescendingTitle = "Name descending Z → A"
+    if order == .nameDesc { sortNameDescendingTitle.append(" ✓") }
+    alert.addAction(UIAlertAction(title: sortNameDescendingTitle, style: .default, handler: { _ in
+      self.order = .nameDesc
       self.updateSearchResults(for: self.searchController)
     }))
+    
+    // Sort by age ascending
+    var sortAgeAscendingTitle = "Age ascending"
+    if order == .ageAsc { sortAgeAscendingTitle.append(" ✓") }
+    alert.addAction(UIAlertAction(title: sortAgeAscendingTitle, style: .default, handler: { _ in
+      self.order = .ageAsc
+      self.updateSearchResults(for: self.searchController)
+    }))
+    
+    // Sort by age ascending
+    var sortAgeDescendingTitle = "Age descending"
+    if order == .ageDesc { sortAgeDescendingTitle.append(" ✓") }
+    alert.addAction(UIAlertAction(title: sortAgeDescendingTitle, style: .default, handler: { _ in
+      self.order = .ageDesc
+      self.updateSearchResults(for: self.searchController)
+    }))
+    
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     present(alert, animated: true, completion: nil)
   }
 }
+
+// MARK: - UITableViewDataSource
 
 extension MembersViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -137,6 +176,8 @@ extension MembersViewController: UITableViewDataSource {
     return cell
   }
 }
+
+// MARK: - UITableViewDelegate
 
 extension MembersViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
