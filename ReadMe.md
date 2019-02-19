@@ -24,10 +24,10 @@ A simple app fetching and displaying a list of companies and its members.
 ### 📷 Screenshots
 
 #### Company List
-![Screenshot](https://github.com/thejeraldo/business-club/raw/develop/Screenshots/company%20list.PNG =250x)
+![png](https://raw.githubusercontent.com/thejeraldo/business-club/develop/Screenshots/company%20list.PNG =250x)
 
 #### Company Details
-![Screenshot](https://github.com/thejeraldo/business-club/raw/develop/Screenshots/company%20details.PNG =250x)
+![png](https://raw.githubusercontent.com/thejeraldo/business-club/develop/Screenshots/company%20details.PNG =250x)
 
 #### Members List
-![Screenshot](https://github.com/thejeraldo/business-club/raw/develop/Screenshots/members.PNG =250x)
+![png](https://raw.githubusercontent.com/thejeraldo/business-club/develop/Screenshots/members.PNG =250x)
