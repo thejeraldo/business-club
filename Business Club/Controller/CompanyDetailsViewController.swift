@@ -12,6 +12,7 @@ import SVProgressHUD
 protocol CompanyDetailsViewControllerDelegate: class {
   func didToggleFollow(_ company: Company)
   func didToggleFavorite(_ company: Company)
+  func didToggleFavorite(_ member: Member, company: Company)
 }
 
 class CompanyDetailsViewController: UIViewController {
@@ -153,7 +154,19 @@ extension CompanyDetailsViewController: UITableViewDelegate {
     guard let company = self.company else { return }
     if detailsRow == .members {
       let vc = MembersViewController(company)
+      vc.delegate = self
       self.navigationController?.pushViewController(vc, animated: true)
     }
+  }
+}
+
+// MARK: - MembersViewControllerDelegate
+
+extension CompanyDetailsViewController: MembersViewControllerDelegate {
+  func didToggleFavorite(_ member: Member) {
+    guard let company = company else { return }
+    self.company?.toggleFavorite(member)
+    self.tableView.reloadData()
+    self.delegate?.didToggleFavorite(member, company: company)
   }
 }

@@ -72,13 +72,17 @@ class MemberTableViewCell: UITableViewCell {
     return button
   }()
   
-  var favoriteButton: UIButton = {
+  lazy var favoriteButton: UIButton = {
     let button = UIButton(type: .custom)
+    button.addTarget(self, action: #selector(didTapFavorite), for: .touchUpInside)
     button.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
     button.setTitle("", for: .normal)
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }()
+  
+  typealias buttonTapHandler = (() -> ())
+  var favoriteTapHandler: buttonTapHandler = {}
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -170,5 +174,10 @@ class MemberTableViewCell: UITableViewCell {
     ]
     emailButton.setAttributedTitle(NSAttributedString(string: member.email, attributes: buttonAttribs), for: .normal)
     phoneButton.setAttributedTitle(NSAttributedString(string: member.phone, attributes: buttonAttribs), for: .normal)
+    favoriteButton.setImage(member.isFavorite ? #imageLiteral(resourceName: "unfavorite") : #imageLiteral(resourceName: "favorite"), for: .normal)
+  }
+  
+  @objc private func didTapFavorite() {
+    self.favoriteTapHandler()
   }
 }

@@ -251,4 +251,9 @@ extension CompaniesViewController: CompanyDetailsViewControllerDelegate {
     self.companies?.modifyElement(atIndex: index) { $0.toggleFavorite() }
     self.tableView.reloadData()
   }
+  
+  func didToggleFavorite(_ member: Member, company: Company) {
+    guard let index = companies?.lastIndex(where: { $0.companyId == company.companyId }) else { return }
+    companies?.modifyElement(atIndex: index) { $0.toggleFavorite(member) }
+  }
 }

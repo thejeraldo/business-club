@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MembersViewControllerDelegate: class {
+  func didToggleFavorite(_ member: Member)
+}
+
 class MembersViewController: UIViewController {
   
   // MARK: - Enums
@@ -23,6 +27,7 @@ class MembersViewController: UIViewController {
   // MARK: - Properties
   
   private var company: Company?
+  weak var delegate: MembersViewControllerDelegate?
   private var order = Order.none
   private var searchResults: Members? {
     get {
@@ -203,7 +208,16 @@ extension MembersViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "memberCell", for: indexPath) as! MemberTableViewCell
-    if let member = searchResults?[indexPath.row] { cell.configureWith(member) }
+    if let member = searchResults?[indexPath.row] {
+      cell.configureWith(member)
+      if let index = company?.members.lastIndex(where: { $0.memberId == member.memberId }) {
+        cell.favoriteTapHandler = {
+          self.company?.members.modifyElement(atIndex: index) { $0.toggleFavorite() }
+          self.tableView.reloadData()
+          self.delegate?.didToggleFavorite(member)
+        }
+      }
+    }
     return cell
   }
 }
@@ -222,7 +236,7 @@ extension MembersViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     guard let member = searchResults?[indexPath.row] else { return }
-    
+    print(member.name)
   }
 }
 
