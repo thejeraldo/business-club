@@ -140,6 +140,7 @@ extension CompanyDetailsViewController: UITableViewDataSource {
 
 extension CompanyDetailsViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if indexPath.row == CompanyDetailsRow.members.rawValue { return 44.0 }
     return UITableView.automaticDimension
   }
   

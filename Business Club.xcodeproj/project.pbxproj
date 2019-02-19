@@ -15,7 +15,6 @@
 		34C3B895221A6AAB001E4B8F /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B894221A6AAB001E4B8F /* MembersViewController.swift */; };
 		34C3B897221A6E66001E4B8F /* MemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C3B896221A6E66001E4B8F /* MemberTableViewCell.swift */; };
 		34FE38482214A99D00B29CDF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38472214A99D00B29CDF /* AppDelegate.swift */; };
-		34FE384A2214A99D00B29CDF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34FE38492214A99D00B29CDF /* ViewController.swift */; };
 		34FE384D2214A99D00B29CDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34FE384B2214A99D00B29CDF /* Main.storyboard */; };
 		34FE384F2214A99F00B29CDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34FE384E2214A99F00B29CDF /* Assets.xcassets */; };
 		34FE38522214A99F00B29CDF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34FE38502214A99F00B29CDF /* LaunchScreen.storyboard */; };
@@ -53,7 +52,6 @@
 		34C3B896221A6E66001E4B8F /* MemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableViewCell.swift; sourceTree = "<group>"; };
 		34FE38442214A99D00B29CDF /* Business Club.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Business Club.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34FE38472214A99D00B29CDF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		34FE38492214A99D00B29CDF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		34FE384C2214A99D00B29CDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		34FE384E2214A99F00B29CDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34FE38512214A99F00B29CDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 				34FE3875221625E900B29CDF /* Controller */,
 				34FE387B221638BC00B29CDF /* Extensions */,
 				34FE38472214A99D00B29CDF /* AppDelegate.swift */,
-				34FE38492214A99D00B29CDF /* ViewController.swift */,
 				34FE384B2214A99D00B29CDF /* Main.storyboard */,
 				34FE384E2214A99F00B29CDF /* Assets.xcassets */,
 				34FE38502214A99F00B29CDF /* LaunchScreen.storyboard */,
@@ -375,7 +372,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				34C3B88D221A4B07001E4B8F /* CompanyDetailsViewController.swift in Sources */,
-				34FE384A2214A99D00B29CDF /* ViewController.swift in Sources */,
 				34FE38482214A99D00B29CDF /* AppDelegate.swift in Sources */,
 				342188A0221B6151009B647A /* Array.swift in Sources */,
 				34FE38702214B29B00B29CDF /* BusinessClubAPI.swift in Sources */,
