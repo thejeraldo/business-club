@@ -125,10 +125,10 @@ class MemberTableViewCell: UITableViewCell {
     constraints.append(initialsLabel.bottomAnchor.constraint(equalTo: memberImageView.bottomAnchor))
     
     // favorite
-    constraints.append(favoriteButton.heightAnchor.constraint(equalToConstant: 24.0))
-    constraints.append(favoriteButton.widthAnchor.constraint(equalToConstant: 24.0))
+    constraints.append(favoriteButton.widthAnchor.constraint(equalToConstant: 32.0))
+    constraints.append(favoriteButton.topAnchor.constraint(equalTo: contentView.topAnchor))
     constraints.append(favoriteButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor))
-    constraints.append(favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
+    constraints.append(favoriteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor))
     
     // name
     constraints.append(nameLabel.leadingAnchor.constraint(equalTo: memberImageView.trailingAnchor, constant: 8.0))

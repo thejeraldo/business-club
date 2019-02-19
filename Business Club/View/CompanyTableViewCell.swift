@@ -98,10 +98,10 @@ class CompanyTableViewCell: UITableViewCell {
     constraints.append(companyImageView.heightAnchor.constraint(equalToConstant: 44.0))
     
     // favorite
-    constraints.append(favoriteButton.heightAnchor.constraint(equalToConstant: 24.0))
-    constraints.append(favoriteButton.widthAnchor.constraint(equalToConstant: 24.0))
+    constraints.append(favoriteButton.widthAnchor.constraint(equalToConstant: 32.0))
+    constraints.append(favoriteButton.topAnchor.constraint(equalTo: contentView.topAnchor))
     constraints.append(favoriteButton.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor))
-    constraints.append(favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor))
+    constraints.append(favoriteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor))
     
     // follow
     constraints.append(followButton.heightAnchor.constraint(equalToConstant: 24.0))
